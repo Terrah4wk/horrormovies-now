@@ -146,7 +146,7 @@ class epgdataImport extends Command
                         $insert_data = [
                             'id' => null,
                             'category1' => (string) $dom->ca0,
-                            'category1' => (string) $dom->ca1,
+                            'category2' => (string) $dom->ca1,
                         ];
 
                         DB::table('epgdata_categories')->insert($insert_data);
