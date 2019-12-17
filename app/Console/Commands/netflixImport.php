@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Imdb\Config;
 use Imdb\Title;
 use Statickidz\GoogleTranslate;
+use GuzzleHttp\Client;
 
 class netflixImport extends Command
 {
@@ -56,26 +57,15 @@ class netflixImport extends Command
         /*
          * New on netflix
          */
-        $curl = curl_init();
-
-        curl_setopt_array($curl, [
-            CURLOPT_URL => env('NETFLIX_API_URL') . '?q=get%3Anew7%3ADE&p=1&t=ns&st=adv',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_HTTPHEADER => [
-                env('NETFLIX_API_HEADER_HOST'),
-                env('NETFLIX_API_HEADER_KEY')
-            ],
+        $client = new Client();
+        $result = $client->request('GET', env('NETFLIX_API_URL') . '?q=get%3Anew7%3ADE&p=1&t=ns&st=adv', [
+            'headers' => [
+                env('NETFLIX_API_HEADER_HOST_KEY') => env('NETFLIX_API_HEADER_HOST_VALUE'),
+                env('NETFLIX_API_HEADER_SECRET_KEY') => env('NETFLIX_API_HEADER_SECRET_VALUE')
+            ]
         ]);
 
-        $response = curl_exec($curl);
-
-        curl_close($curl);
+        $response = $result->getBody();
 
         if(isset($response)) {
             $netflix_new_movies = json_decode($response, true);
@@ -136,25 +126,15 @@ class netflixImport extends Command
 
         foreach ($genre_ids AS $genre_id) {
 
-            $curl = curl_init();
-            curl_setopt_array($curl, [
-                CURLOPT_URL => env('NETFLIX_API_URL') . '?q=%7Bquery%7D-!1900%2C2019-!0%2C5-!0%2C10-!' . $genre_id . '-!Any-!Any-!Any-!gt100-!%7Bdownloadable%7D&t=ns&cl=39&st=adv&ob=Relevance&p=1&sa=and',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
-                CURLOPT_HTTPHEADER => [
-                    env('NETFLIX_API_HEADER_HOST'),
-                    env('NETFLIX_API_HEADER_KEY')
-                ],
+            $client = new Client();
+            $result = $client->request('GET', env('NETFLIX_API_URL') . '?q=%7Bquery%7D-!1900%2C2019-!0%2C5-!0%2C10-!' . $genre_id . '-!Any-!Any-!Any-!gt100-!%7Bdownloadable%7D&t=ns&cl=39&st=adv&ob=Relevance&p=1&sa=and', [
+                'headers' => [
+                    env('NETFLIX_API_HEADER_HOST_KEY') => env('NETFLIX_API_HEADER_HOST_VALUE'),
+                    env('NETFLIX_API_HEADER_SECRET_KEY') => env('NETFLIX_API_HEADER_SECRET_VALUE')
+                ]
             ]);
 
-            $response = curl_exec($curl);
-
-            curl_close($curl);
+            $response = $result->getBody();
 
             if(isset($response)) {
 
@@ -222,25 +202,15 @@ class netflixImport extends Command
         /*
          * Expiring netflix movies
          */
-        $curl = curl_init();
-        curl_setopt_array($curl, [
-            CURLOPT_URL => env('NETFLIX_API_URL') . '?q=get%3Aexp%3ADE&t=ns&st=adv&p=1',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_HTTPHEADER => [
-                env('NETFLIX_API_HEADER_HOST'),
-                env('NETFLIX_API_HEADER_KEY')
-            ],
+        $client = new Client();
+        $result = $client->request('GET', env('NETFLIX_API_URL') . '?q=get%3Aexp%3ADE&t=ns&st=adv&p=1', [
+            'headers' => [
+                env('NETFLIX_API_HEADER_HOST_KEY') => env('NETFLIX_API_HEADER_HOST_VALUE'),
+                env('NETFLIX_API_HEADER_SECRET_KEY') => env('NETFLIX_API_HEADER_SECRET_VALUE')
+            ]
         ]);
 
-        $response = curl_exec($curl);
-
-        curl_close($curl);
+        $response = $result->getBody();
 
         if(isset($response)) {
             $netflix_expired_movies = json_decode($response, true);
