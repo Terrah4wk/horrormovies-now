@@ -83,7 +83,7 @@ class netflixImport extends Command
 
             foreach ($netflix_new_movies['ITEMS'] AS $netflix_new_movies) {
 
-                if(empty($netflix_movie['imdbid'])) {
+                if(empty($netflix_new_movies['imdbid'])) {
                     continue;
                 }
 
@@ -92,10 +92,22 @@ class netflixImport extends Command
 
                 if(isset($genre) && Str::contains($genre, 'Horror')) {
 
-                    $translated_synopsis = $google_translator->translate('en', 'de', $netflix_new_movies['synopsis']);
-                    usleep(200);
-                    if(!empty($translated_synopsis)) {
-                        $netflix_new_movies['synopsis'] = $translated_synopsis; // just overwrite
+                    $movie_translated = DB::table('movie_translated')->where('imdbid', $netflix_new_movies['imdbid'])->first();
+
+                    if(!isset($movie_translated->imdbid)) {
+
+                        $translated_synopsis = $google_translator->translate('en', 'de', $netflix_new_movies['synopsis']);
+                        usleep(300);
+
+                        $insert_data = [
+                            'id' => null,
+                            'imdbid' => $netflix_new_movies['imdbid'],
+                            'description' => $translated_synopsis,
+                            'description_en' => $netflix_new_movies['synopsis'],
+                        ];
+
+                        DB::table('movie_translated')->insert($insert_data);
+
                     }
 
                     $insert_data = [
@@ -103,12 +115,10 @@ class netflixImport extends Command
                         'netflixid' => $netflix_new_movies['netflixid'],
                         'title' => $netflix_new_movies['title'],
                         'image' => $netflix_new_movies['image'],
-                        'description' => $netflix_new_movies['synopsis'],
                         'released' => $netflix_new_movies['released'],
                         'runtime' => $netflix_new_movies['runtime'],
                         'release_date' => $netflix_new_movies['unogsdate'],
                         'imdbid' => $netflix_new_movies['imdbid'],
-                        'genre' => $genre,
                     ];
 
                     DB::table('netflix_movie')->insert($insert_data);
@@ -162,6 +172,24 @@ class netflixImport extends Command
 
                     if(isset($genre) && Str::contains($genre, 'Horror')) {
 
+                        $movie_translated = DB::table('movie_translated')->where('imdbid', $netflix_movie['imdbid'])->first();
+
+                        if(!isset($movie_translated->imdbid)) {
+
+                            $translated_synopsis = $google_translator->translate('en', 'de', $netflix_movie['synopsis']);
+                            usleep(300);
+
+                            $insert_data = [
+                                'id' => null,
+                                'imdbid' => $netflix_movie['imdbid'],
+                                'description' => $translated_synopsis,
+                                'description_en' => $netflix_movie['synopsis']
+                            ];
+
+                            DB::table('movie_translated')->insert($insert_data);
+
+                        }
+
                         $translated_synopsis = $google_translator->translate('en', 'de', $netflix_movie['synopsis']);
                         usleep(250);
 
@@ -174,12 +202,10 @@ class netflixImport extends Command
                             'netflixid' => $netflix_movie['netflixid'],
                             'title' => $netflix_movie['title'],
                             'image' => $netflix_movie['image'],
-                            'description' => $netflix_movie['synopsis'],
                             'released' => $netflix_movie['released'],
                             'runtime' => $netflix_movie['runtime'],
                             'date' => $netflix_movie['unogsdate'],
                             'imdbid' => $netflix_movie['imdbid'],
-                            'genre' => $genre,
                             'type' => $imdb->movietype(),
                         ];
 
@@ -231,11 +257,22 @@ class netflixImport extends Command
 
                 if(isset($genre) && Str::contains($genre, 'Horror')) {
 
-                    $translated_synopsis = $google_translator->translate('en', 'de', $netflix_expired_movie['synopsis']);
-                    usleep(250);
+                    $movie_translated = DB::table('movie_translated')->where('imdbid', $netflix_expired_movie['imdbid'])->first();
 
-                    if(!empty($translated_synopsis)) {
-                        $netflix_expired_movie['synopsis'] = $translated_synopsis; // just overwrite
+                    if(!isset($movie_translated->imdbid)) {
+
+                        $translated_synopsis = $google_translator->translate('en', 'de', $netflix_expired_movie['synopsis']);
+                        usleep(300);
+
+                        $insert_data = [
+                            'id' => null,
+                            'imdbid' => $netflix_expired_movie['imdbid'],
+                            'description' => $translated_synopsis,
+                            'description_en' => $netflix_expired_movie['synopsis']
+                        ];
+
+                        DB::table('movie_translated')->insert($insert_data);
+
                     }
 
                     $insert_data = [
@@ -243,12 +280,10 @@ class netflixImport extends Command
                         'netflixid' => $netflix_expired_movie['netflixid'],
                         'title' => $netflix_expired_movie['title'],
                         'image' => $netflix_expired_movie['image'],
-                        'description' => $netflix_expired_movie['synopsis'],
                         'released' => $netflix_expired_movie['released'],
                         'runtime' => $netflix_expired_movie['runtime'],
                         'expire_date' => $netflix_expired_movie['unogsdate'],
                         'imdbid' => $netflix_expired_movie['imdbid'],
-                        'genre' => $genre,
                         'type' => $imdb->movietype(),
                     ];
 
