@@ -45,7 +45,7 @@ class NetflixController extends Controller
                 ->leftJoin('movie_translated', 'netflix_movie.imdbid', '=', 'movie_translated.imdbid')
                 ->whereNotNull('netflix_movie.date')
                 ->groupBy('netflix_movie.netflixid', 'netflix_movie.title', 'netflix_movie.image', 'movie_translated.description', 'netflix_movie.released', 'netflix_movie.runtime',
-                    'netflix_movie.release_date', 'movie_translated.genre', 'netflix_movie.type')
+                    'netflix_movie.date', 'movie_translated.genre', 'netflix_movie.type')
                 ->orderBy('netflix_movie.date')->get()->toArray();
         });
 
@@ -68,7 +68,7 @@ class NetflixController extends Controller
                 ->leftJoin('movie_translated', 'netflix_movie.imdbid', '=', 'movie_translated.imdbid')
                 ->whereNotNull('netflix_movie.expire_date')
                 ->groupBy('netflix_movie.netflixid', 'netflix_movie.title', 'netflix_movie.image', 'movie_translated.description', 'netflix_movie.released', 'netflix_movie.runtime',
-                    'netflix_movie.release_date', 'movie_translated.genre', 'netflix_movie.type')
+                    'netflix_movie.expire_date', 'movie_translated.genre', 'netflix_movie.type')
                 ->orderBy('netflix_movie.expire_date')->get()->toArray();
         });
 
