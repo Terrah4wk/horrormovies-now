@@ -37,10 +37,6 @@
                 <a class="nav-link" href="{{ route('imprint') }}">Impressum</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Suchen">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Suchen</button>
-        </form>
     </div>
 </nav>
 <div class="container">
