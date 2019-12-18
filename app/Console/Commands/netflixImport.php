@@ -80,7 +80,7 @@ class netflixImport extends Command
                 if (isset($genre) && Str::contains($genre, 'Horror')) {
                     $movie_translated = DB::table('movie_translated')->where('imdbid', $netflix_new_movies['imdbid'])->first();
 
-                    if (!isset($movie_translated->imdbid)) {
+                    if (! isset($movie_translated->imdbid)) {
                         $translated_synopsis = $google_translator->translate('en', 'de', $netflix_new_movies['synopsis']);
                         usleep(300);
 
@@ -141,7 +141,7 @@ class netflixImport extends Command
                     if (isset($genre) && Str::contains($genre, 'Horror')) {
                         $movie_translated = DB::table('movie_translated')->where('imdbid', $netflix_movie['imdbid'])->first();
 
-                        if (!isset($movie_translated->imdbid)) {
+                        if (! isset($movie_translated->imdbid)) {
                             $translated_synopsis = $google_translator->translate('en', 'de', $netflix_movie['synopsis']);
                             usleep(300);
 
@@ -158,7 +158,7 @@ class netflixImport extends Command
                         $translated_synopsis = $google_translator->translate('en', 'de', $netflix_movie['synopsis']);
                         usleep(250);
 
-                        if (!empty($translated_synopsis)) {
+                        if (! empty($translated_synopsis)) {
                             $netflix_movie['synopsis'] = $translated_synopsis; // just overwrite
                         }
 
@@ -208,7 +208,7 @@ class netflixImport extends Command
                 if (isset($genre) && Str::contains($genre, 'Horror')) {
                     $movie_translated = DB::table('movie_translated')->where('imdbid', $netflix_expired_movie['imdbid'])->first();
 
-                    if (!isset($movie_translated->imdbid)) {
+                    if (! isset($movie_translated->imdbid)) {
                         $translated_synopsis = $google_translator->translate('en', 'de', $netflix_expired_movie['synopsis']);
                         usleep(300);
 
