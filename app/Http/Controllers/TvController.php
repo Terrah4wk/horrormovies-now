@@ -29,22 +29,20 @@ class TvController extends Controller
                 ->whereIn('epgdata_channel.channel_id', array_keys($channels_whitelist))
                 ->whereNotNull('epgdata_movie.imdb_category')
                 ->whereRaw('UNIX_TIMESTAMP(epgdata_movie.starttime) > ? AND UNIX_TIMESTAMP(epgdata_movie.starttime) < ?', [strtotime(date('Y-m-d H:i:s', strtotime('-2 hours'))), strtotime(date('Y-m-d H:i:s', strtotime('36 hours')))])
-                ->orWhereIn('epgdata_movie.genreid', [116,216])
+                ->orWhereIn('epgdata_movie.genreid', [116, 216])
                 ->whereIn('epgdata_channel.channel_id', array_keys($channels_whitelist))
                 ->whereRaw('UNIX_TIMESTAMP(epgdata_movie.starttime) > ? AND UNIX_TIMESTAMP(epgdata_movie.starttime) < ?', [strtotime(date('Y-m-d H:i:s', strtotime('-2 hours'))), strtotime(date('Y-m-d H:i:s', strtotime('36 hours')))])
                 ->orderBy('epgdata_movie.starttime')->get();
         });
 
         $active_movie = [];
-        foreach ($movies AS $movie) {
+        foreach ($movies as $movie) {
             $active_movie[$movie->id] = 'inactive';
-            if(strtotime($movie->starttime) < time() && strtotime($movie->endtime) > time()) {
+            if (strtotime($movie->starttime) < time() && strtotime($movie->endtime) > time()) {
                 $active_movie[$movie->id] = 'active';
             }
         }
 
         return view('tv_current', ['movies' => $movies, 'active_movie' => $active_movie]);
-
     }
-
 }
