@@ -11,9 +11,6 @@ class SiteController extends Controller
      */
     public function imprint()
     {
-
         return view('imprint', []);
-
     }
-
 }

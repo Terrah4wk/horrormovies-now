@@ -14,11 +14,10 @@ class NetflixController extends Controller
      */
     public function new()
     {
-
         $movies = Cache::remember('netflix_new', 300, function () {
             return DB::table('netflix_movie')
                 ->select(['netflix_movie.netflixid', 'netflix_movie.title', 'netflix_movie.image', 'movie_translated.description', 'netflix_movie.released', 'netflix_movie.runtime',
-                    'netflix_movie.release_date', 'movie_translated.genre', 'netflix_movie.type'])
+                    'netflix_movie.release_date', 'movie_translated.genre', 'netflix_movie.type', ])
                 ->leftJoin('movie_translated', 'netflix_movie.imdbid', '=', 'movie_translated.imdbid')
                 ->whereNotNull('netflix_movie.release_date')
                 ->groupBy('netflix_movie.netflixid', 'netflix_movie.title', 'netflix_movie.image', 'movie_translated.description', 'netflix_movie.released', 'netflix_movie.runtime',
@@ -27,7 +26,6 @@ class NetflixController extends Controller
         });
 
         return view('netflix_new', ['movies' => $movies]);
-
     }
 
     /**
@@ -37,11 +35,10 @@ class NetflixController extends Controller
      */
     public function current()
     {
-
         $movies = Cache::remember('netflix_current', 300, function () {
             return DB::table('netflix_movie')
                 ->select(['netflix_movie.netflixid', 'netflix_movie.title', 'netflix_movie.image', 'movie_translated.description', 'netflix_movie.released', 'netflix_movie.runtime',
-                    'netflix_movie.date', 'movie_translated.genre', 'netflix_movie.type'])
+                    'netflix_movie.date', 'movie_translated.genre', 'netflix_movie.type', ])
                 ->leftJoin('movie_translated', 'netflix_movie.imdbid', '=', 'movie_translated.imdbid')
                 ->whereNotNull('netflix_movie.date')
                 ->groupBy('netflix_movie.netflixid', 'netflix_movie.title', 'netflix_movie.image', 'movie_translated.description', 'netflix_movie.released', 'netflix_movie.runtime',
@@ -50,7 +47,6 @@ class NetflixController extends Controller
         });
 
         return view('netflix_current', ['movies' => $movies]);
-
     }
 
     /**
@@ -60,11 +56,10 @@ class NetflixController extends Controller
      */
     public function expire()
     {
-
         $movies = Cache::remember('netflix_expire', 300, function () {
             return DB::table('netflix_movie')
                 ->select(['netflix_movie.netflixid', 'netflix_movie.title', 'netflix_movie.image', 'movie_translated.description', 'netflix_movie.released', 'netflix_movie.runtime',
-                    'netflix_movie.expire_date', 'movie_translated.genre', 'netflix_movie.type'])
+                    'netflix_movie.expire_date', 'movie_translated.genre', 'netflix_movie.type', ])
                 ->leftJoin('movie_translated', 'netflix_movie.imdbid', '=', 'movie_translated.imdbid')
                 ->whereNotNull('netflix_movie.expire_date')
                 ->groupBy('netflix_movie.netflixid', 'netflix_movie.title', 'netflix_movie.image', 'movie_translated.description', 'netflix_movie.released', 'netflix_movie.runtime',
@@ -73,7 +68,5 @@ class NetflixController extends Controller
         });
 
         return view('netflix_expire', ['movies' => $movies]);
-
     }
-
 }

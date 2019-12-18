@@ -59,27 +59,23 @@ class epgdataFixGenre extends Command
             })
             ->orderBy('epgdata_movie.id')
             ->chunk(1000, function ($movies) {
-            foreach ($movies as $movie) {
+                foreach ($movies as $movie) {
+                    $imdbData = json_decode(file_get_contents(env('MOVIE_API_URL').'/?t='.urlencode($movie->title).'&apikey='.env('MOVIE_API_KEY')), true);
 
-                $imdbData = json_decode(file_get_contents( env('MOVIE_API_URL') . '/?t=' . urlencode($movie->title) . '&apikey=' . env('MOVIE_API_KEY')), true);
-
-                if(
+                    if (
                     isset($imdbData['Genre']) && Str::contains($imdbData['Genre'], 'Horror')
                 ) {
-                    $actors = explode(', ', $imdbData['Actors']);
-                    if(Str::contains($movie->actor, $actors[0])) {
+                        $actors = explode(', ', $imdbData['Actors']);
+                        if (Str::contains($movie->actor, $actors[0])) {
                             DB::table('epgdata_movie')
                                 ->where('id', $movie->id)
                                 ->update(['imdb_category' => $imdbData['Genre']]);
+                        }
                     }
-                }
-                DB::table('epgdata_movie')
+                    DB::table('epgdata_movie')
                     ->where('id', $movie->id)
                     ->update(['fixed' => 1]);
-            }
-
-        });
-
+                }
+            });
     }
-
 }
