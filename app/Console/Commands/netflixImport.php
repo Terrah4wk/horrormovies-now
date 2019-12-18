@@ -87,7 +87,7 @@ class netflixImport extends Command
                     if(!isset($netflix_movie_translation->imdbid)) {
 
                         $translated_synopsis = $google_translator->translate('en', 'de', $netflix_new_movies['synopsis']);
-                        usleep(300);
+                        sleep(2);
 
                         $insert_data = [
                             'id' => null,
@@ -157,7 +157,7 @@ class netflixImport extends Command
                         if(!isset($netflix_movie_translation->imdbid)) {
 
                             $translated_synopsis = $google_translator->translate('en', 'de', $netflix_movie['synopsis']);
-                            usleep(300);
+                            sleep(2);
 
                             $insert_data = [
                                 'id' => null,
@@ -171,7 +171,7 @@ class netflixImport extends Command
                         }
 
                         $translated_synopsis = $google_translator->translate('en', 'de', $netflix_movie['synopsis']);
-                        usleep(250);
+                        sleep(2);
 
                         if(!empty($translated_synopsis)) {
                             $netflix_movie['synopsis'] = $translated_synopsis; // just overwrite
@@ -232,7 +232,7 @@ class netflixImport extends Command
                     if(!isset($netflix_movie_translation->imdbid)) {
 
                         $translated_synopsis = $google_translator->translate('en', 'de', $netflix_expired_movie['synopsis']);
-                        usleep(300);
+                        sleep(2);
 
                         $insert_data = [
                             'id' => null,
