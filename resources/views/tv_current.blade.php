@@ -11,6 +11,7 @@
         </div>
     </section>
 
+    @if (! empty($movies) )
     <table class="table table-hover">
         <thead>
         <tr>
@@ -33,4 +34,6 @@
         @endforeach
         </tbody>
     </table>
+    @endif
+    
 @endsection
