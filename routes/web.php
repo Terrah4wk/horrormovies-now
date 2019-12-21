@@ -13,7 +13,7 @@
 
 Route::get('/', [
     'as' => 'tv.index',
-    'uses' => 'TvController@index'
+    'uses' => 'TvController@index',
 ]);
 Route::get('/netflix/neu-erschienen', 'NetflixController@new')->name('netflix.new');
 Route::get('/netflix/aktuell', 'NetflixController@current')->name('netflix.current');
