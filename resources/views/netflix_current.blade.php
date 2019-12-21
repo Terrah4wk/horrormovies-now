@@ -54,9 +54,11 @@
                                 Laufzeit: {{ $movie->runtime !== "" ? $movie->runtime : "n/a" }}
                             </li>
                         </ul>
-                        <div class="card-body">
-                            <a href="#" class="card-link">Bloodcamp link</a>
-                        </div>
+                        @if(strlen($movie->imdb) > 4)
+                            <div class="card-body">
+                                <a rel="nofollow" href="https://www.imdb.com/title/{{ $movie->imdb }}/" class="card-link">Imdb</a>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 @endforeach
