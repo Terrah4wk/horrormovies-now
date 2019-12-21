@@ -17,11 +17,11 @@ class NetflixController extends Controller
         $movies = Cache::remember('netflix_new', 300, function () {
             return DB::table('netflix_movie')
                 ->select(['netflix_movie.netflixid', 'netflix_movie.title', 'netflix_movie.image', 'netflix_movie_translation.description', 'netflix_movie.released', 'netflix_movie.runtime',
-                    'netflix_movie.release_date', 'netflix_movie_translation.genre', 'netflix_movie.type', 'netflix_movie.rating', ])
+                    'netflix_movie.release_date', 'netflix_movie_translation.genre', 'netflix_movie.type', 'netflix_movie.rating', 'netflix_movie.imdb'])
                 ->leftJoin('netflix_movie_translation', 'netflix_movie.imdbid', '=', 'netflix_movie_translation.imdbid')
                 ->whereNotNull('netflix_movie.release_date')
                 ->groupBy('netflix_movie.netflixid', 'netflix_movie.title', 'netflix_movie.image', 'netflix_movie_translation.description', 'netflix_movie.released', 'netflix_movie.runtime',
-                    'netflix_movie.release_date', 'netflix_movie_translation.genre', 'netflix_movie.type', 'netflix_movie.rating')
+                    'netflix_movie.release_date', 'netflix_movie_translation.genre', 'netflix_movie.type', 'netflix_movie.rating', 'netflix_movie.imdb')
                 ->orderBy('netflix_movie.release_date')
                 ->orderBy('netflix_movie.rating')
                 ->get()->toArray();
@@ -40,11 +40,11 @@ class NetflixController extends Controller
         $movies = Cache::remember('netflix_current', 300, function () {
             return DB::table('netflix_movie')
                 ->select(['netflix_movie.netflixid', 'netflix_movie.title', 'netflix_movie.image', 'netflix_movie_translation.description', 'netflix_movie.released', 'netflix_movie.runtime',
-                    'netflix_movie.date', 'netflix_movie_translation.genre', 'netflix_movie.type', 'netflix_movie.rating', ])
+                    'netflix_movie.date', 'netflix_movie_translation.genre', 'netflix_movie.type', 'netflix_movie.rating', 'netflix_movie.imdb'])
                 ->leftJoin('netflix_movie_translation', 'netflix_movie.imdbid', '=', 'netflix_movie_translation.imdbid')
                 ->whereNotNull('netflix_movie.date')
                 ->groupBy('netflix_movie.netflixid', 'netflix_movie.title', 'netflix_movie.image', 'netflix_movie_translation.description', 'netflix_movie.released', 'netflix_movie.runtime',
-                    'netflix_movie.date', 'netflix_movie_translation.genre', 'netflix_movie.type', 'netflix_movie.rating')
+                    'netflix_movie.date', 'netflix_movie_translation.genre', 'netflix_movie.type', 'netflix_movie.rating', 'netflix_movie.imdb')
                 ->orderBy('netflix_movie.rating')->get()->toArray();
         });
 
@@ -61,11 +61,11 @@ class NetflixController extends Controller
         $movies = Cache::remember('netflix_expire', 300, function () {
             return DB::table('netflix_movie')
                 ->select(['netflix_movie.netflixid', 'netflix_movie.title', 'netflix_movie.image', 'netflix_movie_translation.description', 'netflix_movie.released', 'netflix_movie.runtime',
-                    'netflix_movie.expire_date', 'netflix_movie_translation.genre', 'netflix_movie.type', 'netflix_movie.rating', ])
+                    'netflix_movie.expire_date', 'netflix_movie_translation.genre', 'netflix_movie.type', 'netflix_movie.rating', 'netflix_movie.imdb'])
                 ->leftJoin('netflix_movie_translation', 'netflix_movie.imdbid', '=', 'netflix_movie_translation.imdbid')
                 ->whereNotNull('netflix_movie.expire_date')
                 ->groupBy('netflix_movie.netflixid', 'netflix_movie.title', 'netflix_movie.image', 'netflix_movie_translation.description', 'netflix_movie.released', 'netflix_movie.runtime',
-                    'netflix_movie.expire_date', 'netflix_movie_translation.genre', 'netflix_movie.type', 'netflix_movie.rating')
+                    'netflix_movie.expire_date', 'netflix_movie_translation.genre', 'netflix_movie.type', 'netflix_movie.rating', 'netflix_movie.imdb')
                 ->orderBy('netflix_movie.expire_date')
                 ->orderBy('netflix_movie.rating')
                 ->get()->toArray();
