@@ -49,7 +49,7 @@
                                             Laufzeit: {{ $movie->runtime !== "" ? $movie->runtime : "n/a" }}
                                         </li>
                                         <li class="list-group-item">
-                                            Läuft ab am {{ date('d.m.y', strtotime($movie->release_date)) }}
+                                            Läuft ab am {{ date('d.m.y', strtotime($movie->expire_date)) }}
                                         </li>
                                     </ul>
                                     <div class="card-body">
