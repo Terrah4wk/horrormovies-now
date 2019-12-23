@@ -55,7 +55,7 @@ class TvController extends Controller
     /*
      * Get meta data
      */
-    public static function setPageMeta()
+    private static function setPageMeta()
     {
         $name = (string) Route::currentRouteName();
         $pageMeta = Cache::remember('page_meta'.$name, 1, function () use ($name) {

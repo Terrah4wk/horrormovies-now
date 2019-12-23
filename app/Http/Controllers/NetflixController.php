@@ -85,7 +85,7 @@ class NetflixController extends Controller
     /*
      * Get meta data
      */
-    public static function setPageMeta()
+    private static function setPageMeta()
     {
         $name = (string) Route::currentRouteName();
         $pageMeta = Cache::rememberForever('page_meta'.$name, function () use ($name) {
