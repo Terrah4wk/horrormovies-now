@@ -1,0 +1,20 @@
+.movie_image {
+    max-width: 474px !important;
+    width: 100% !important;
+    display: block !important;
+}
+
+.card-body {
+    min-height: 72px;
+}
+
+.card-text {
+    min-height: 150px;
+}
+
+/* mobile fix */
+@media only screen and (max-width: 384px) { 
+    .material-icons {
+        font-size: 21px !important;
+    }
+}

@@ -1,0 +1,33 @@
+[
+{"type":"channel_whitelist"},
+[
+{"id":"1","channel_id":"71","name":"Das Erste"},
+{"id":"2","channel_id":"37","name":"ZDF"},
+{"id":"3","channel_id":"38","name":"RTL"},
+{"id":"4","channel_id":"39","name":"Sat.1"},
+{"id":"5","channel_id":"40","name":"ProSieben"},
+{"id":"6","channel_id":"44","name":"kabel eins"},
+{"id":"7","channel_id":"41","name":"RTL Zwei"},
+{"id":"8","channel_id":"42","name":"VOX"},
+{"id":"9","channel_id":"56","name":"3sat"},
+{"id":"10","channel_id":"58","name":"Arte"},
+{"id":"11","channel_id":"47","name":"NDR"},
+{"id":"12","channel_id":"46","name":"WDR"},
+{"id":"13","channel_id":"51","name":"BR"},
+{"id":"14","channel_id":"48","name":"MDR"},
+{"id":"15","channel_id":"52","name":"RBB"},
+{"id":"16","channel_id":"49","name":"HR"},
+{"id":"18","channel_id":"277","name":"Tele 5"},
+{"id":"19","channel_id":"54","name":"ORF 1"},
+{"id":"20","channel_id":"55","name":"ORF 2"},
+{"id":"21","channel_id":"757","name":"ORF 3"},
+{"id":"22","channel_id":"59","name":"SRF 1"},
+{"id":"23","channel_id":"60","name":"SRF 2"},
+{"id":"24","channel_id":"299","name":"Schweiz 5"},
+{"id":"25","channel_id":"507","name":"DMAX"},
+{"id":"27","channel_id":"659","name":"ZDFneo"},
+{"id":"28","channel_id":"783","name":"ProSieben Maxx"},
+{"id":"30","channel_id":"694","name":"Sixx"},
+{"id":"31","channel_id":"146","name":"One"}
+]
+]
