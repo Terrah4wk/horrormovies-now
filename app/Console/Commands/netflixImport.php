@@ -330,7 +330,7 @@ class netflixImport extends Command
                     continue;
                 }
 
-                $netflix_url = env('NETFLIX_TITLE_URL').$netflix_expired_movies['netflixid'];
+                $netflix_url = env('NETFLIX_TITLE_URL').$netflix_expired_movie['netflixid'];
                 $client = new Client();
                 $response = $client->request('GET', $netflix_url);
                 $html = $response->getBody()->getContents();
