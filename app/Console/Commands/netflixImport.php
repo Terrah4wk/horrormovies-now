@@ -151,45 +151,59 @@ class netflixImport extends Command
                         continue;
                     }
 
-                    if (isset($genre_en) && Str::contains($genre_en, 'Horror')) {
-                        $netflix_movie_translation = DB::table('netflix_movie_translation')->where('imdbid', $netflix_movie['imdbid'])->first();
+                    usleep(10);
 
-                        if (! isset($netflix_movie_translation->imdbid)) {
-                            $translated_synopsis = $google_translator->translate('en', 'de', $netflix_movie['synopsis']);
-                            sleep(2);
-                            $translated_genre = $google_translator->translate('en', 'de', $genre_en);
+                    $netflix_url = env('NETFLIX_TITLE_URL') . $netflix_movie['netflixid'];
+                    $client = new Client();
+                    $response = $client->request('GET', $netflix_url);
+                    $html = $response->getBody()->getContents();
+                    $german_exist = Str::contains($html, 'German');
+
+                    if($german_exist === true) {
+
+                        if (isset($genre_en) && Str::contains($genre_en, 'Horror')) {
+                            $netflix_movie_translation = DB::table('netflix_movie_translation')->where('imdbid',
+                                $netflix_movie['imdbid'])->first();
+
+                            if (!isset($netflix_movie_translation->imdbid)) {
+                                $translated_synopsis = $google_translator->translate('en', 'de', $netflix_movie['synopsis']);
+                                sleep(2);
+                                $translated_genre = $google_translator->translate('en', 'de', $genre_en);
+
+                                $insert_data = [
+                                    'id' => null,
+                                    'imdbid' => $netflix_movie['imdbid'],
+                                    'genre_en' => $genre_en,
+                                    'genre' => $translated_genre,
+                                    'description' => $translated_synopsis,
+                                    'description_en' => $netflix_movie['synopsis'],
+                                ];
+
+                                DB::table('netflix_movie_translation')->insert($insert_data);
+                            }
+
+                            if (!empty($translated_synopsis)) {
+                                $netflix_movie['synopsis'] = $netflix_movie_translation->description; // just overwrite
+                            }
 
                             $insert_data = [
-                                'id'             => null,
-                                'imdbid'         => $netflix_movie['imdbid'],
-                                'genre_en'       => $genre_en,
-                                'genre'          => $translated_genre,
-                                'description'    => $translated_synopsis,
-                                'description_en' => $netflix_movie['synopsis'],
+                                'id' => null,
+                                'netflixid' => $netflix_movie['netflixid'],
+                                'title' => html_entity_decode($netflix_movie['title'], ENT_QUOTES, 'UTF-8'),
+                                'image' => proximage($netflix_movie['image'])->width(474)->get(),
+                                'released' => $netflix_movie['released'],
+                                'runtime' => $netflix_movie['runtime'],
+                                'date' => $netflix_movie['unogsdate'],
+                                'imdbid' => $netflix_movie['imdbid'],
+                                'rating' => round($imdb->rating()),
+                                'type' => $imdb->movietype(),
                             ];
 
-                            DB::table('netflix_movie_translation')->insert($insert_data);
+                            DB::table('netflix_movie')->insert($insert_data);
                         }
 
-                        if (! empty($translated_synopsis)) {
-                            $netflix_movie['synopsis'] = $netflix_movie_translation->description; // just overwrite
-                        }
-
-                        $insert_data = [
-                            'id'        => null,
-                            'netflixid' => $netflix_movie['netflixid'],
-                            'title'       => html_entity_decode($netflix_movie['title'], ENT_QUOTES, 'UTF-8'),
-                            'image'       => proximage($netflix_movie['image'])->width(474)->get(),
-                            'released'    => $netflix_movie['released'],
-                            'runtime'     => $netflix_movie['runtime'],
-                            'date'        => $netflix_movie['unogsdate'],
-                            'imdbid'      => $netflix_movie['imdbid'],
-                            'rating'      => round($imdb->rating()),
-                            'type'        => $imdb->movietype(),
-                        ];
-
-                        DB::table('netflix_movie')->insert($insert_data);
                     }
+
                 }
             }
         }
@@ -224,43 +238,57 @@ class netflixImport extends Command
                 }
 
 
-                if (isset($genre_en) && Str::contains($genre_en, 'Horror')) {
-                    $netflix_movie_translation = DB::table('netflix_movie_translation')->where('imdbid', $netflix_expired_movie['imdbid'])->first();
+                usleep(10);
 
-                    if (! isset($netflix_movie_translation->imdbid)) {
-                        
-                        $translated_synopsis = $google_translator->translate('en', 'de', $netflix_expired_movie['synopsis']);
-                        sleep(3);
-                        $translated_genre = $google_translator->translate('en', 'de', $genre_en);
-                        sleep(1);
+                $netflix_url = env('NETFLIX_TITLE_URL') . $netflix_expired_movies['netflixid'];
+                $client = new Client();
+                $response = $client->request('GET', $netflix_url);
+                $html = $response->getBody()->getContents();
+                $german_exist = Str::contains($html, 'German');
+
+                if($german_exist === true) {
+
+                    if (isset($genre_en) && Str::contains($genre_en, 'Horror')) {
+                        $netflix_movie_translation = DB::table('netflix_movie_translation')->where('imdbid',
+                            $netflix_expired_movie['imdbid'])->first();
+
+                        if (!isset($netflix_movie_translation->imdbid)) {
+
+                            $translated_synopsis = $google_translator->translate('en', 'de', $netflix_expired_movie['synopsis']);
+                            sleep(3);
+                            $translated_genre = $google_translator->translate('en', 'de', $genre_en);
+                            sleep(1);
+
+                            $insert_data = [
+                                'id' => null,
+                                'imdbid' => $netflix_expired_movie['imdbid'],
+                                'genre_en' => $genre_en,
+                                'genre' => $translated_genre,
+                                'description' => $translated_synopsis,
+                                'description_en' => $netflix_expired_movie['synopsis'],
+                            ];
+
+                            DB::table('netflix_movie_translation')->insert($insert_data);
+                        }
 
                         $insert_data = [
-                            'id'             => null,
-                            'imdbid'         => $netflix_expired_movie['imdbid'],
-                            'genre_en'       => $genre_en,
-                            'genre'          => $translated_genre,
-                            'description'    => $translated_synopsis,
-                            'description_en' => $netflix_expired_movie['synopsis'],
+                            'id' => null,
+                            'netflixid' => $netflix_expired_movie['netflixid'],
+                            'title' => html_entity_decode($netflix_expired_movie['title'], ENT_QUOTES, 'UTF-8'),
+                            'image' => proximage($netflix_expired_movie['image'])->width(474)->get(),
+                            'released' => $netflix_expired_movie['released'],
+                            'runtime' => $netflix_expired_movie['runtime'],
+                            'expire_date' => $netflix_expired_movie['unogsdate'],
+                            'imdbid' => $netflix_expired_movie['imdbid'],
+                            'rating' => round($imdb->rating()),
+                            'type' => $imdb->movietype(),
                         ];
 
-                        DB::table('netflix_movie_translation')->insert($insert_data);
+                        DB::table('netflix_movie')->insert($insert_data);
                     }
 
-                    $insert_data = [
-                        'id'          => null,
-                        'netflixid'   => $netflix_expired_movie['netflixid'],
-                        'title'       => html_entity_decode($netflix_expired_movie['title'], ENT_QUOTES, 'UTF-8'),
-                        'image'       => proximage($netflix_expired_movie['image'])->width(474)->get(),
-                        'released'    => $netflix_expired_movie['released'],
-                        'runtime'     => $netflix_expired_movie['runtime'],
-                        'expire_date' => $netflix_expired_movie['unogsdate'],
-                        'imdbid'      => $netflix_expired_movie['imdbid'],
-                        'rating'      => round($imdb->rating()),
-                        'type'        => $imdb->movietype(),
-                    ];
-
-                    DB::table('netflix_movie')->insert($insert_data);
                 }
+
             }
         }
     }
