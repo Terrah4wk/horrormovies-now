@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use DOMDocument;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
