@@ -392,7 +392,7 @@ class netflixImport extends Command
                 if (isset($matches[1]) && is_array($matches[1])) {
 
                     // Find something german
-                    foreach ($matches AS $match) {
+                    foreach ($matches[1] AS $match) {
 
                         if (Str::contains($match, 'German') === true) {
                             $german_audio = true;
@@ -409,7 +409,7 @@ class netflixImport extends Command
                 if (isset($matches[1]) && is_array($matches[1])) {
 
                     // Find something german
-                    foreach ($matches AS $match) {
+                    foreach ($matches[1] AS $match) {
 
                         if (Str::contains($match, 'German') === true) {
                             $german_subtitle = true;
