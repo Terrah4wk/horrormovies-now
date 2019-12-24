@@ -86,8 +86,24 @@ class netflixImport extends Command
 
                 /*
                  * Workaround: For API problems. I assume that movies in Germany must have at least one German subtitle or German audio.
-                 * That should minimize the issues.
+                 * That should minimize the issues; that's not works atm for series.
                  */
+                $series = false;
+                preg_match_all('/<h2 class="section-header-text section-item" data-uia="section-header-text">(.*?)<\/h2>/s', $html,
+                    $matches);
+                if (isset($matches[1]) && is_array($matches[1])) {
+
+                    // Find something german
+                    foreach ($matches[1] AS $match) {
+
+                        if (Str::contains($match, 'Episodes') === true) {
+                            $series = true;
+                        }
+
+                    }
+
+                }
+
                 $german_audio = false;
                 preg_match_all('/<span class="more-details-item item-audio" data-uia="more-details-item-audio">(.*?)<\/span>/s', $html,
                     $matches);
@@ -121,7 +137,7 @@ class netflixImport extends Command
 
                 }
 
-                if ($german_audio === true || $german_subtitle === true) {
+                if ($german_audio === true || $german_subtitle === true || $series === true) {
 
                     try {
                         $imdb = new Title($netflix_new_movie['imdbid'], $config);
@@ -209,8 +225,24 @@ class netflixImport extends Command
 
                     /*
                      * Workaround: For API problems. I assume that movies in Germany must have at least one German subtitle or German audio.
-                     * That should minimize the issues.
+                     * That should minimize the issues; that's not works atm for series.
                      */
+                    $series = false;
+                    preg_match_all('/<h2 class="section-header-text section-item" data-uia="section-header-text">(.*?)<\/h2>/s', $html,
+                        $matches);
+                    if (isset($matches[1]) && is_array($matches[1])) {
+
+                        // Find something german
+                        foreach ($matches[1] AS $match) {
+
+                            if (Str::contains($match, 'Episodes') === true) {
+                                $series = true;
+                            }
+
+                        }
+
+                    }
+
                     $german_audio = false;
                     preg_match_all('/<span class="more-details-item item-audio" data-uia="more-details-item-audio">(.*?)<\/span>/s', $html,
                         $matches);
@@ -244,7 +276,7 @@ class netflixImport extends Command
 
                     }
 
-                    if ($german_audio === true || $german_subtitle === true) {
+                    if ($german_audio === true || $german_subtitle === true || $series === true) {
 
                         try {
                             $imdb = new Title($netflix_movie['imdbid'], $config);
@@ -336,8 +368,24 @@ class netflixImport extends Command
 
                 /*
                  * Workaround: For API problems. I assume that movies in Germany must have at least one German subtitle or German audio.
-                 * That should minimize the issues.
+                 * That should minimize the issues; that's not works atm for series.
                  */
+                $series = false;
+                preg_match_all('/<h2 class="section-header-text section-item" data-uia="section-header-text">(.*?)<\/h2>/s', $html,
+                    $matches);
+                if (isset($matches[1]) && is_array($matches[1])) {
+
+                    // Find something german
+                    foreach ($matches[1] AS $match) {
+
+                        if (Str::contains($match, 'Episodes') === true) {
+                            $series = true;
+                        }
+
+                    }
+
+                }
+
                 $german_audio = false;
                 preg_match_all('/<span class="more-details-item item-audio" data-uia="more-details-item-audio">(.*?)<\/span>/s', $html,
                     $matches);
@@ -371,7 +419,7 @@ class netflixImport extends Command
 
                 }
 
-                if ($german_audio === true || $german_subtitle === true) {
+                if ($german_audio === true || $german_subtitle === true || $series === true) {
 
                     try {
                         $imdb = new Title($netflix_expired_movie['imdbid'], $config);
