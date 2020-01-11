@@ -47,6 +47,7 @@ class epgdataImport extends Command
             'epgPackageUrl0' => env('EPG_PACKAGE_URL_0'),
             'epgPackageUrl1' => env('EPG_PACKAGE_URL_1'),
             'epgPackageUrl2' => env('EPG_PACKAGE_URL_2'),
+            'epgPackageUrl3' => env('EPG_PACKAGE_URL_3'),
         ];
 
         if (date('j') === 1) {// First day of the month should be enough
