@@ -309,7 +309,7 @@ class netflixImport extends Command
                                 DB::table('netflix_movie_translation')->insert($insert_data);
                             }
 
-                            if (!empty($translated_synopsis && isset($netflix_movie_translation->description))) {
+                            if (!empty($translated_synopsis)) {
                                 $netflix_movie['synopsis'] = $netflix_movie_translation->description; // just overwrite
                             }
 
