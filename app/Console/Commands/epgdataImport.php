@@ -70,7 +70,11 @@ class epgdataImport extends Command
             $localFile = storage_path('/tmp/'.$filename);
 
             if (file_exists(storage_path('/tmp/'.$filename)) === false) {
-                $client = new Client();
+
+                $client = new Client([
+                    'verify' => false
+                ]);
+
                 $client->request('GET', $epgUrl, [
                     'sink' => $localFile,
                 ]);
