@@ -22,7 +22,8 @@ class SiteController extends Controller
      */
     public function imprint()
     {
-        return view('page_imprint', []);
+        $imprint_content = env('IMPRINT_CONTENT');
+        return view('page_imprint', ['imprint_content' => $imprint_content]);
     }
 
     /*
